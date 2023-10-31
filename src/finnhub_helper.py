@@ -1,61 +1,45 @@
 import os
 import json
-import websocket
 
+import websocket
 from dotenv import load_dotenv
 
-from log import load_logging
-
-load_dotenv()
-token = os.getenv('FINNHUB_API')
-
-def on_message(ws, message):
-    data = json.loads(message)
-    print(data['data'])
-    print(len(data['data']))
-
-
-def on_error(ws, error):
-    print(error)
-
-
-def on_close(ws):
-    print('### closed ###')
-
-
-def on_open(ws):
-    ws.send('{"type":"subscribe","symbol":"AAPL"}')
-    ws.send('{"type":"subscribe","symbol":"AMZN"}')
-
-
-if __name__ == '__main__':
-    ws = websocket.WebSocketApp(f"wss://ws.finnhub.io?token={token}", on_message=on_message,
-                                on_error=on_error, on_close=on_close)
-
-    ws.on_open = on_open
-    ws.run_forever()
+from src.log import load_logging
 
 
 class FinnhubTradeAPI:
+    _FINNHUB_WS_ADDRESS = "wss://ws.finnhub.io"
+    _SUBSCRIPTION_MSG = '{{"type":"subscribe","symbol":"{symbol_abv}"}}'
 
     def __init__(self, symbols: list = None):
         # setup logger for class
         self.logger = load_logging(__class__.__name__)
 
+        load_dotenv()
         self.token = os.getenv('FINNHUB_API')
-        self.symbols = symbols
+        self.symbols = symbols      # the symbols we're getting data for e.g. AMZN
 
     def start_stream(self):
-        pass
+        finnhub_ws = websocket.WebSocketApp(f"{self._FINNHUB_WS_ADDRESS}?token={self.token}",
+                                            on_message=self.on_message,
+                                            on_error=self.on_error,
+                                            on_close=self.on_close)
+        finnhub_ws.on_open = self.on_open
+        finnhub_ws.run_forever()
 
-    def on_open(self):
-        pass
+    def on_open(self, ws):
+        for name in self.symbols:
+            payload = self._SUBSCRIPTION_MSG.format(symbol_abv=name)
+            ws.send(payload)
 
-    def on_message(self):
-        pass
+    @staticmethod
+    def on_message(ws, message):
+        response = json.loads(message)
+        response_data = response['data']
+        print(response_data)
 
-    def on_error(self):
-        pass
+    def on_error(self, ws, error):
+        self.logger.error(msg="Error while streaming", exc_info=error)  # this is not going to work
 
-    def on_close(self):
+    def on_close(self, ws, close_status, close_message):
         pass

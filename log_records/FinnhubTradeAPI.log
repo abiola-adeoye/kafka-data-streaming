@@ -1,0 +1,42 @@
+2023-11-01 09:53:30,296 - FinnhubTradeAPI - ERROR - Error while streaming: Handshake status 401 Unauthorized -+-+- {'date': 'Wed, 01 Nov 2023 08:53:30 GMT', 'content-type': 'application/json', 'content-length': '28', 'connection': 'keep-alive', 'cf-cache-status': 'DYNAMIC', 'report-to': '{"endpoints":[{"url":"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=%2FPT%2BD9%2B75T5qYgkHDD%2F0tplFfIdHaO%2BF5oPL%2FJklkSkgILPWEGJ7sUkbArG7StXLBI9iuinaQzVpfQoYy7pcnV64FDU0ns%2FriNRAaLNstvevvc6Bxoc%2BDy7%2BiZ5sU9%2Fb"}],"group":"cf-nel","max_age":604800}', 'nel': '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}', 'server': 'cloudflare', 'cf-ray': '81f2e86138d36548-LHR', 'alt-svc': 'h3=":443"; ma=86400'} -+-+- b'{"error":"Invalid API key."}'
+Traceback (most recent call last):
+  File "C:\Users\HP\PycharmProjects\kafka-data-streaming\venv\lib\site-packages\websocket\_app.py", line 418, in setSock
+    self.sock.connect(
+  File "C:\Users\HP\PycharmProjects\kafka-data-streaming\venv\lib\site-packages\websocket\_core.py", line 255, in connect
+    self.handshake_response = handshake(self.sock, url, *addrs, **options)
+  File "C:\Users\HP\PycharmProjects\kafka-data-streaming\venv\lib\site-packages\websocket\_handshake.py", line 57, in handshake
+    status, resp = _get_resp_headers(sock)
+  File "C:\Users\HP\PycharmProjects\kafka-data-streaming\venv\lib\site-packages\websocket\_handshake.py", line 150, in _get_resp_headers
+    raise WebSocketBadStatusException("Handshake status {status} {message} -+-+- {headers} -+-+- {body}".format(status=status, message=status_message, headers=resp_headers, body=response_body), status, status_message, resp_headers, response_body)
+websocket._exceptions.WebSocketBadStatusException: Handshake status 401 Unauthorized -+-+- {'date': 'Wed, 01 Nov 2023 08:53:30 GMT', 'content-type': 'application/json', 'content-length': '28', 'connection': 'keep-alive', 'cf-cache-status': 'DYNAMIC', 'report-to': '{"endpoints":[{"url":"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=%2FPT%2BD9%2B75T5qYgkHDD%2F0tplFfIdHaO%2BF5oPL%2FJklkSkgILPWEGJ7sUkbArG7StXLBI9iuinaQzVpfQoYy7pcnV64FDU0ns%2FriNRAaLNstvevvc6Bxoc%2BDy7%2BiZ5sU9%2Fb"}],"group":"cf-nel","max_age":604800}', 'nel': '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}', 'server': 'cloudflare', 'cf-ray': '81f2e86138d36548-LHR', 'alt-svc': 'h3=":443"; ma=86400'} -+-+- b'{"error":"Invalid API key."}'
+2023-11-01 09:57:48,362 - FinnhubTradeAPI - ERROR - Error while streaming: 
+Traceback (most recent call last):
+  File "C:\Users\HP\PycharmProjects\kafka-data-streaming\venv\lib\site-packages\websocket\_app.py", line 434, in setSock
+    dispatcher.read(self.sock.sock, read, check)
+  File "C:\Users\HP\PycharmProjects\kafka-data-streaming\venv\lib\site-packages\websocket\_app.py", line 97, in read
+    r = self.select(sock, sel)
+  File "C:\Users\HP\PycharmProjects\kafka-data-streaming\venv\lib\site-packages\websocket\_app.py", line 110, in select
+    r = sel.select(self.ping_timeout)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python310\lib\selectors.py", line 324, in select
+    r, w, _ = self._select(self._readers, self._writers, [], timeout)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python310\lib\selectors.py", line 315, in _select
+    r, w, x = select.select(r, w, w, timeout)
+KeyboardInterrupt
+2023-11-01 09:57:49,229 - FinnhubTradeAPI - INFO - Finnhub Trade data stream is closing None None
+2023-11-01 10:01:29,272 - FinnhubTradeAPI - INFO - Subscribed to BINANCE:BTCUSDT symbol
+2023-11-01 10:01:29,273 - FinnhubTradeAPI - INFO - Subscribed to BINANCE:ETHUSDT symbol
+2023-11-01 10:01:29,274 - FinnhubTradeAPI - INFO - Subscribed to BINANCE:XRPUSDT symbol
+2023-11-01 10:01:29,274 - FinnhubTradeAPI - INFO - Subscribed to BINANCE:DOGEUSDT symbol
+2023-11-01 10:01:47,403 - FinnhubTradeAPI - ERROR - Error while streaming: 
+Traceback (most recent call last):
+  File "C:\Users\HP\PycharmProjects\kafka-data-streaming\venv\lib\site-packages\websocket\_app.py", line 434, in setSock
+    dispatcher.read(self.sock.sock, read, check)
+  File "C:\Users\HP\PycharmProjects\kafka-data-streaming\venv\lib\site-packages\websocket\_app.py", line 97, in read
+    r = self.select(sock, sel)
+  File "C:\Users\HP\PycharmProjects\kafka-data-streaming\venv\lib\site-packages\websocket\_app.py", line 110, in select
+    r = sel.select(self.ping_timeout)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python310\lib\selectors.py", line 324, in select
+    r, w, _ = self._select(self._readers, self._writers, [], timeout)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python310\lib\selectors.py", line 315, in _select
+    r, w, x = select.select(r, w, w, timeout)
+KeyboardInterrupt

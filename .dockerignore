@@ -1,0 +1,16 @@
+/venv
+
+/.github
+
+/.idea
+
+/log_records
+
+.env
+
+.env.example
+
+.gitignore
+
+Dockerfile
+

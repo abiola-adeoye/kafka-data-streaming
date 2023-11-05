@@ -4,6 +4,8 @@
 
 /.idea
 
+/log_records
+
 src/__pycache__/
 
 API_Documentation _Finnhub-colour.pdf

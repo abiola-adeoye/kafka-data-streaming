@@ -24,4 +24,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: bibiabiola/finnhub-trade-producer:latest
+          tags: bibiabiola/finnhub-trade:latest

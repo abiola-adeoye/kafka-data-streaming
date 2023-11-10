@@ -4,6 +4,7 @@ import json
 
 import websocket
 from dotenv import load_dotenv
+from confluent_kafka import Producer
 
 from src.log import load_logging
 
@@ -21,6 +22,12 @@ class FinnhubTradeAPI:
         self.token = os.getenv('FINNHUB_API')
         self.symbols = symbols      # the symbols we're getting data for e.g. AMZN
 
+        self.kafka_producer = Producer({
+            'bootstrap.servers': "localhost:9092",
+            'client.id': 'finnhub_producer'
+        })
+        self.kafka_topic =  "FinnhubTrade" #os.getenv('KAFKA_TOPIC')     # needs to be implemented
+
     def start_stream(self) -> None:
         if self.test_mode:
             websocket.enableTrace(True)
@@ -37,14 +44,24 @@ class FinnhubTradeAPI:
             ws.send(payload)
             self.logger.info(f"Subscribed to {name} symbol")
 
-    @staticmethod
-    def on_message(ws, message: str):
+    def on_message(self, ws, message: str):
         response = json.loads(message)
         response_data = response['data']
-        print(response_data)
+
+        self.send_to_kafka(response_data)
 
     def on_error(self, ws, error):
         self.logger.error(msg=f"Error while streaming: {error}", exc_info=1)
 
     def on_close(self, ws, close_status, close_message):
         self.logger.info(msg=f"Data stream is closing...")
+
+    def send_to_kafka(self, data):
+        try:
+            # Produce message to Kafka topic
+            self.kafka_producer.produce(self.kafka_topic, key=None, value=json.dumps(data))
+            self.kafka_producer.poll(0)
+        except Exception as e:
+            self.logger.error(msg="Error sending message to Kafka", exc_info=True)
+
+
